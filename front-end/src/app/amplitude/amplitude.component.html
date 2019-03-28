@@ -1,0 +1,49 @@
+<br>
+<div class="container">
+  <form  [formGroup]="connForm" (ngSubmit)="onSubmit()">
+    <h2>Connexion ssh</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="first">Host IP</label>
+          <input type="text" class="form-control" formControlName="host" name="host" placeholder="xxx.xxx.xxx.xxx" id="host" [ngClass]="{ 'is-invalid': submitted && f.host.errors }">
+           
+        </div>
+      </div>
+      <!--  col-md-6   -->
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="last">Utilisateur</label>
+          <input type="text" class="form-control" formControlName="user"placeholder="user" name="user" id="user">
+        </div>
+      </div>
+      <!--  col-md-6   -->
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="company">password</label>
+          <input type="password" class="form-control" formControlName="password" name="password"placeholder="***" id="password">
+        </div>
+
+
+      </div>
+      <!--  col-md-6   -->
+
+      <div class="col-md-6">
+
+        <div class="form-group">
+          <label for="phone">Port</label>
+          <input type="tel" class="form-control" id="Port" formControlName="port" name="port" placeholder="22">
+        </div>
+      </div>
+      <!--  col-md-6   -->
+    </div>
+    <div>{{msg}}</div>
+    <!--  row   -->
+    <button  class="btn btn-primary">Submit</button>
+  </form>
+</div>
