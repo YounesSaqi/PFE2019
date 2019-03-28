@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     if(this.loginForm.controls.email.value == 'dhiraj@gmail.com' && this.loginForm.controls.password.value == 'password') {
-        this.router.navigate(['list-user']);
+        this.router.navigate(['acceuill']);
     }else {
       this.invalidLogin = true;
     }
