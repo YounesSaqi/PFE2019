@@ -1,5 +1,6 @@
 <br><br>
-<div class="col-md-10 offset-md-1">
+<div class="col-md-10 offset-md-1" *ngIf="session=='true'; else other_content">
+    
   <h2> User Details</h2>
   
   <table class="table table-striped">
@@ -27,3 +28,5 @@
   </table>
   <button class="btn btn-danger offset-md-10 " (click)="addUser()"> Add User</button>
 </div>
+
+<ng-template class=" offset-md-5" #other_content><a href="/login">You must login......</a></ng-template>

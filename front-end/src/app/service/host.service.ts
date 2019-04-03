@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Host} from "../model/host.model";
+import {Commande} from "../model/commande.model"
 
 @Injectable()
 export class HostService {
@@ -19,7 +20,9 @@ export class HostService {
   connectHost(host: Host) {
     return this.http.post(this.baseUrl+'/connect', host);
   }
-
+  ExcuteCommande(commande:Commande){
+    return this.http.post<Commande>(this.baseUrl + '/commande',  commande);
+  }
   updateHost(host: Host) {
     return this.http.put(this.baseUrl + '/' + host.id, host);
   }

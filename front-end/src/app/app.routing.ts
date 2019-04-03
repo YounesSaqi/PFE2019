@@ -5,6 +5,7 @@ import {ListUserComponent} from "./list-user/list-user.component";
 import {EditUserComponent} from "./edit-user/edit-user.component";
 import {PageAcceuillComponent} from "./page-acceuill/page-acceuill.component";
 import {AmplitudeComponent} from "./amplitude/amplitude.component"
+import {ConnexionApplicatifComponent} from "./connexion-applicatif/connexion-applicatif.component"
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'add-user', component: AddUserComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'edit-user', component: EditUserComponent },
   { path: 'acceuill', component: PageAcceuillComponent },
   { path: 'amplitude', component: AmplitudeComponent },
+  { path: 'applicatif', component: ConnexionApplicatifComponent},
   {path : '', component : LoginComponent}
 ];
 

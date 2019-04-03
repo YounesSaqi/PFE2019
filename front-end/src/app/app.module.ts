@@ -15,6 +15,7 @@ import {HostService} from "./service/host.service";
 
 import { PageAcceuillComponent } from './page-acceuill/page-acceuill.component';
 import { AmplitudeComponent } from './amplitude/amplitude.component';
+import { ConnexionApplicatifComponent } from './connexion-applicatif/connexion-applicatif.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AmplitudeComponent } from './amplitude/amplitude.component';
     AddUserComponent,
     EditUserComponent,
     PageAcceuillComponent,
-    AmplitudeComponent
+    AmplitudeComponent,
+    ConnexionApplicatifComponent
   ],
   imports: [
     BrowserModule,

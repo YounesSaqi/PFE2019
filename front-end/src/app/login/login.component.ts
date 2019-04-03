@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {first} from "rxjs/operators";
 import {AuthenticationService} from "../service/auth.service";
+import {UserService} from "../service/user.service";
 
 @Component({
   selector: 'app-login',
@@ -10,25 +11,38 @@ import {AuthenticationService} from "../service/auth.service";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+   
   loginForm: FormGroup;
   submitted: boolean = false;
   invalidLogin: boolean = false;
-  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthenticationService) { }
+  //val = JSON.parse(this.userService.getUsers());
+  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthenticationService,private userService:UserService) { }
 
   onSubmit() {
     this.submitted = true;
     if (this.loginForm.invalid) {
       return;
     }
-    if(this.loginForm.controls.email.value == 'dhiraj@gmail.com' && this.loginForm.controls.password.value == 'password') {
-        this.router.navigate(['acceuill']);
+
+   this.userService.getUsers().forEach((item) => {
+   if(item.some((obj) => obj.email == this.loginForm.controls.email.value && obj.password == this.loginForm.controls.password.value)){
+    localStorage.setItem('isLoggedIn', "true");
+    this.router.navigate(['acceuill']);
     }else {
       this.invalidLogin = true;
+      localStorage.setItem('isLoggedIn', "false");
+
     }
+   
+
+   });
+
+
+    
   }
 
   ngOnInit() {
+
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]

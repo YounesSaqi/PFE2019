@@ -11,14 +11,16 @@ import {User} from "../model/user.model";
 export class ListUserComponent implements OnInit {
 
   users: User[];
-
+  session:string;
   constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit() {
+    this.session=localStorage.getItem('isLoggedIn');
     this.userService.getUsers()
       .subscribe( data => {
         this.users = data;
       });
+    
   }
 
   deleteUser(user: User): void {
