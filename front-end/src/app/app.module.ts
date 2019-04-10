@@ -16,6 +16,8 @@ import {HostService} from "./service/host.service";
 import { PageAcceuillComponent } from './page-acceuill/page-acceuill.component';
 import { AmplitudeComponent } from './amplitude/amplitude.component';
 import { ConnexionApplicatifComponent } from './connexion-applicatif/connexion-applicatif.component';
+import { SqlhostComponent } from './sqlhost/sqlhost.component';
+import { TnsnameOraComponent } from './tnsname-ora/tnsname-ora.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { ConnexionApplicatifComponent } from './connexion-applicatif/connexion-a
     EditUserComponent,
     PageAcceuillComponent,
     AmplitudeComponent,
-    ConnexionApplicatifComponent
+    ConnexionApplicatifComponent,
+    SqlhostComponent,
+    TnsnameOraComponent,
   ],
   imports: [
     BrowserModule,

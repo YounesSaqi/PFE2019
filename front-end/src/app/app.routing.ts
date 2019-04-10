@@ -4,7 +4,10 @@ import {AddUserComponent} from "./add-user/add-user.component";
 import {ListUserComponent} from "./list-user/list-user.component";
 import {EditUserComponent} from "./edit-user/edit-user.component";
 import {PageAcceuillComponent} from "./page-acceuill/page-acceuill.component";
-import {AmplitudeComponent} from "./amplitude/amplitude.component"
+import {AmplitudeComponent} from "./amplitude/amplitude.component";
+import {TnsnameOraComponent} from "./tnsname-ora/tnsname-ora.component"
+import {SqlhostComponent} from "./sqlhost/sqlhost.component"
+
 import {ConnexionApplicatifComponent} from "./connexion-applicatif/connexion-applicatif.component"
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -14,6 +17,9 @@ const routes: Routes = [
   { path: 'acceuill', component: PageAcceuillComponent },
   { path: 'amplitude', component: AmplitudeComponent },
   { path: 'applicatif', component: ConnexionApplicatifComponent},
+  { path: 'tnsname', component: TnsnameOraComponent },
+  { path: 'sqlhosts', component: SqlhostComponent },
+
   {path : '', component : LoginComponent}
 ];
 

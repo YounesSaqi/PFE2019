@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Host} from "../model/host.model";
 import {Commande} from "../model/commande.model"
-
+import {SqlHost} from "../model/sqlhost.model"
 @Injectable()
 export class HostService {
   constructor(private http: HttpClient) { }
@@ -29,5 +29,9 @@ export class HostService {
 
   deleteHost(id: number) {
     return this.http.delete(this.baseUrl + '/' + id);
+  }
+
+  Excutesqlhost(sqlhost:SqlHost){
+    return this.http.post('http://localhost:8080/ssh/commande_host',sqlhost)
   }
 }

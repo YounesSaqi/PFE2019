@@ -1,33 +1,47 @@
+
 <br>
+
 <div class="container">
 
-    <h2>les infos  sur  BASH_PROFILE</h2><br>
-  <form  (ngSubmit)="onSubmit()">
+    <h2>Modifier BASH_PROFILE + env_emplitude + fglprofile  </h2><br>
+  <form  #myform="ngForm" (ngSubmit)="onSubmit(myform)">
     <table class="table">
-        <thead>
+        
           <tr>
             <th>User Applicatif</th>
-            <th>Chemin Amplitude</th>
-            <th>Database</th>
-            <th>Instance</th>
-            <th>Type BD</th>
-            <th></th>
-            
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
             <td>{{msg}}</td>
-            <td>{{amplitude}}</td>
-            <td><input type="text" class="form" value={{database}}> </td>
-            <td> <input type="text"   class="form" value={{Instance}}> </td>
-            <td> {{Type}}</td>
-            <td> <button class="btn btn-success">Modifier</button></td>
           </tr>
-         
-        </tbody>
+          <tr>
+            <th>$BANK</th>
+            <td>{{amplitude}}</td>
+          </tr> 
+           <tr>
+            <th>Database</th>
+            <td><input type="text"  name="data"  class="form-control" value={{database}} [(ngModel)]="data" > </td>
+           </tr>
+           <tr>
+            <th>Instance</th>
+            <td> <input type="text"  name="sid"  class="form-control" value={{Instance}} [(ngModel)]="sid" > </td>
+           </tr>
+           <tr>
+            <th>Type BD</th>
+            <td>{{Type}}</td>
+           </tr>
+            
+           <tr>
+              <th>Password BD(fglprofile.bank)</th>
+              <td><input type="text"  name="password"  class="form-control"  value="{{database}}" [(ngModel)]="password"  required > </td>
+            </tr> 
+            <tr>
+              <td></td>
+              <td>
+               <button class="btn btn-success  offset-md-11">Modifier</button>
+               </td>
+            </tr>
       </table>
      
    </form>
-
 </div>
+
+
+

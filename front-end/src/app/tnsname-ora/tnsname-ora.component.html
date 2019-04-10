@@ -1,0 +1,40 @@
+<br>
+<br>
+<h2>
+ Info "tnsnames.ora"
+</h2>
+<form #myform="ngForm" (ngSubmit)="onSubmit(myform)">
+<div class="row">
+    <div class="col-md-3  offset-md-1">
+      <div class="form-group">
+        <label for="first">Database</label>
+        <input type="text" class="form-control" formControlName="database" value={{database}} name="database"  id="database" disabled [(ngModel)]="database" >
+         
+      </div>
+    </div>
+    <!--  col-md-3   -->
+
+    <div class="col-md-3 ">
+      <div class="form-group">
+        <label for="last">Address IP</label>
+        <input type="text" class="form-control" formControlName="ip"  name="ip" id="ip">
+      </div>
+    </div>
+      <!--  col-md-3   -->
+     <div class="col-md-3">
+        <div class="form-group">
+          <label for="last">Port </label>
+          <input type="text" class="form-control"  name="port" id="port">
+        </div>
+      </div>
+      <div class="col-md-2 offset-md-1">
+          <div class="form-group">
+
+           <label for="last"> </label>
+            <button class="btn btn-success ">Modifier</button>
+          </div>
+       </div>
+
+    <!--  col-md-3   -->
+  </div>
+</form>
