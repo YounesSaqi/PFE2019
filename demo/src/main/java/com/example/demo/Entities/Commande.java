@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 public class Commande {
     private String commande;
-
     public Commande(String commande) {
         this.commande = commande;
     }

@@ -4,6 +4,7 @@ package com.example.demo.Controller;
 import com.example.demo.DAO.SShDAO;
 import com.example.demo.Entities.Commande;
 import com.example.demo.Entities.SSHConnection;
+import com.example.demo.Entities.sqlhost;
 import com.jcraft.jsch.*;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.Channel;
@@ -22,7 +23,7 @@ public class SShController {
     @Autowired
     private SShDAO sshDAO;
     private Session session;
-
+    private String str3;
     public SShController() {
     }
 
@@ -56,7 +57,7 @@ public class SShController {
 
     //Excution des commandes
    @RequestMapping(value = "/commande", method = RequestMethod.POST)
-       public  Commande ExecuteCommande(@RequestBody Commande commande) {
+       public  Commande  ExecuteCommande(@RequestBody Commande commande) {
            String CommandOutput = null;
            try {
                // System.out.println("Connected");
@@ -101,7 +102,7 @@ public class SShController {
            }
        commande.setCommande(CommandOutput);
        System.out.println(commande.getCommande());
-           return commande;
+       return commande;
 
        }
 
@@ -113,10 +114,59 @@ public class SShController {
 
     }
 
+    @RequestMapping(value = "/commande_host", method = RequestMethod.POST)
+    public  String  ExecuteCommande_hosts(@RequestBody sqlhost shost) {
+        String[] parts = shost.getInstance().split("\r\n");
+        String CommandOutput = null;
+        try {
+            // System.out.println("Connected");
+            Channel channel = session.openChannel("exec");
+            ((ChannelExec)channel).setPty(true);
+            InputStream in = channel.getInputStream();
+            channel.setInputStream(null);
+            ((ChannelExec) channel).setErrStream(System.err);
+            System.out.println(parts[0]);
+            ((ChannelExec) channel).setCommand("echo '" +parts[0]+"  "+ "onsoctcp"+"  "+ shost.getIp() +"  "+shost.getPort() + "' >> /opt/informix/etc/sqlhosts."+parts[0]);
+            ((ChannelExec) channel).setErrStream(System.err);
 
 
+            channel.connect();
+            byte[] tmp = new byte[1024];
+            while (true) {
+                while (in.available() > 0) {
+                    int i = in.read(tmp, 0, 1024);
 
+                    if (i < 0)
+                        break;
+                    // System.out.print(new String(tmp, 0, i));
+                    CommandOutput = new String(tmp, 0, i);
+                }
+
+                if (channel.isClosed()) {
+                    // System.out.println("exit-status: " +
+                    // channel.getExitStatus());
+                    break;
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception ee) {
+                }
+            }
+            //   channel.disconnect();
+            //    session.disconnect();
+            // System.out.println("DONE");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    //    System.out.println(shost.getInstance());
+        return CommandOutput;
 
 
     }
-
+     public void deconnect(){
+         session.disconnect();
+         System.out.println("DONE");
+     }
+    }
