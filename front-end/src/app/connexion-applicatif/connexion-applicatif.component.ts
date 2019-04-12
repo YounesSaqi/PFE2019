@@ -19,7 +19,7 @@ export class ConnexionApplicatifComponent implements OnInit {
    usrApp:string="ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1";
    bd;sid;inst;passwrd;password;
    splited;Type;Instance:any;   
-   msg;amplitude;pswd;
+   msg;amplitude;pswd;session
    database;data;text:any;
 
   constructor(private formBuilder: FormBuilder,private hostService:HostService,private router: Router) { 
@@ -27,6 +27,8 @@ export class ConnexionApplicatifComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.session=localStorage.getItem('isLoggedIn');
+
       this.commForm=this.formBuilder.group({
       commande:[this.usrApp,Validators.required]
    });
@@ -90,7 +92,7 @@ export class ConnexionApplicatifComponent implements OnInit {
   onSubmit(form) {
     this.pswd = "\""+ form.value['password']+  "\""; 
 
-     this.bd="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c  'sed -i -e s/"+this.database+"/"+ form.value['data'] + "/g ~/.bash_profile $FGLDIR/etc/fglprofile.bank $ORACLE_HOME/network/admin/tnsnames.ora'";
+     this.bd="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c  'sed -i -e s/"+this.database+"/"+ form.value['data'] + "/g ~/.bash_profile $FGLDIR/etc/fglprofile.bank '";
      this.inst="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c  'sed -i -e s/"+this.Instance+"/"+ form.value['sid'] + "/g ~/.bash_profile  $AMPLITUDE_PROFILE/my_env_amplitude $AMPLITUDE_PROFILE/env_amplitude $FGLDIR/etc/fglprofile.bank '";
      this.passwrd="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'sed -i 's/"+this.database+".password.*/"+form.value['data']+".password="+  form.value['password']  +"/g'  $FGLDIR/etc/fglprofile.bank '";
      console.log(this.passwrd);
@@ -129,7 +131,7 @@ export class ConnexionApplicatifComponent implements OnInit {
          this.router.navigate(['applicatif']) 
          .then(() => {
           if(this.Type=="Oracle"){
-            localStorage.setItem("database",form.value['data'])
+      
             this.router.navigate(['tnsname'])
        //   window.location.reload();
           }else
@@ -145,5 +147,14 @@ export class ConnexionApplicatifComponent implements OnInit {
    
        }
 }
+onDeconnect(){
 
+  
+   if(this.Type=="Oracle"){
+    this.router.navigate(['tnsname'])
+  }else
+ if(this.Type=="Informix"){
+    this.router.navigate(['sqlhosts'])  
+  }
+}
 }

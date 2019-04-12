@@ -68,13 +68,17 @@ console.log(this.Form_write.value)
        console.log(this.Form_touch.value)
        });
   
-     
+       this.router.navigate(['acceuill'])
 
 
-     
+      }
+      onDeconnect(){
 
-
-
-    }
-  
+        this.hostService.deconnexion()
+         .subscribe(data=>{
+            console.log(data);
+         });
+         this.router.navigate(['acceuill'])
+      }
+      
 }

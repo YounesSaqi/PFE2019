@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./page-acceuill.component.css']
 })
 export class PageAcceuillComponent implements OnInit {
+  session:string;
 
   constructor() { }
 
   ngOnInit() {
+    this.session=localStorage.getItem('isLoggedIn');
   }
 
 }

@@ -1,7 +1,7 @@
 
 <br>
 
-<div class="container">
+<div class="container" *ngIf="session=='true'; else other_content">
 
     <h2>Modifier BASH_PROFILE + env_emplitude + fglprofile  </h2><br>
   <form  #myform="ngForm" (ngSubmit)="onSubmit(myform)">
@@ -17,11 +17,11 @@
           </tr> 
            <tr>
             <th>Database</th>
-            <td><input type="text"  name="data"  class="form-control" value={{database}} [(ngModel)]="data" > </td>
+            <td><input type="text"  name="data"  class="form-control" value={{database}} [(ngModel)]="data" required> </td>
            </tr>
            <tr>
             <th>Instance</th>
-            <td> <input type="text"  name="sid"  class="form-control" value={{Instance}} [(ngModel)]="sid" > </td>
+            <td> <input type="text"  name="sid"  class="form-control" value={{Instance}} [(ngModel)]="sid" required > </td>
            </tr>
            <tr>
             <th>Type BD</th>
@@ -33,15 +33,18 @@
               <td><input type="text"  name="password"  class="form-control"  value="{{database}}" [(ngModel)]="password"  required > </td>
             </tr> 
             <tr>
-              <td></td>
+              <td> <button class="btn btn-danger" (click)="onDeconnect()" >Annuler</button></td>
               <td>
-               <button class="btn btn-success  offset-md-11">Modifier</button>
+               <button class="btn btn-success offset-md-11 " [disabled]="!myform.valid">Modifier</button>
+              
                </td>
             </tr>
       </table>
-     
    </form>
+
 </div>
+<ng-template class=" offset-md-5" #other_content><a href="/login">You must login......</a></ng-template>
+
 
 
 

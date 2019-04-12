@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup,Validators} from "@angular/forms";
 import {HostService} from "../service/host.service";
 import {Router} from "@angular/router";
 import { Commande } from '../model/commande.model';
@@ -15,16 +15,17 @@ export class AmplitudeComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,private router: Router, private hostService: HostService) { }
   connForm: FormGroup;
   commForm:FormGroup;
-  msg:any;
+  msg;host:any;
   cmd :Commande;
-  commande:string ;
+  commande;session:string ;
   ngOnInit() {
+    this.session=localStorage.getItem('isLoggedIn');
 
     this.connForm = this.formBuilder.group({
       id: [],
       user: ['', Validators.required],
       host: ['', Validators.required],
-      port:['',Validators.required],
+      port:[''],
       password: ['', Validators.required]
       
     });

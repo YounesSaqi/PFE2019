@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    localStorage.setItem('isLoggedIn', "false");
 
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],

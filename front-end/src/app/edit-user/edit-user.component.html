@@ -1,6 +1,6 @@
 <div class="col-md-6">
   <h2 class="text-center">Edit User</h2>
-  <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="editForm" #updateuser=ngForm (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="email">Email address:</label>
       <input type="email" formControlName="email" placeholder="Email" name="email" class="form-control" id="email">
@@ -20,6 +20,6 @@
       <input formControlName="password" placeholder="Password" name="password" class="form-control" id="password">
     </div>
 
-    <button class="btn btn-success">Update</button>
+    <button class="btn btn-success" [disabled]="!updateuser.valid">Update</button>
   </form>
 </div>

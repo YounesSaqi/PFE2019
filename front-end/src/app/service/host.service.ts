@@ -31,7 +31,11 @@ export class HostService {
     return this.http.delete(this.baseUrl + '/' + id);
   }
 
-  Excutesqlhost(sqlhost:SqlHost){
+  Excutestnsnames(sqlhost:SqlHost){
     return this.http.post('http://localhost:8080/ssh/commande_host',sqlhost)
+  }
+
+  deconnexion(){   
+    return this.http.get('http://localhost:8080/ssh/deconnect');
   }
 }

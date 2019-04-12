@@ -3,12 +3,12 @@
 <h2>
  Info "tnsnames.ora"
 </h2>
-<form #myform="ngForm" (ngSubmit)="onSubmit(myform)">
+<form #tnsname="ngForm">
 <div class="row">
     <div class="col-md-3  offset-md-1">
       <div class="form-group">
-        <label for="first">Database</label>
-        <input type="text" class="form-control" formControlName="database" value={{database}} name="database"  id="database" disabled [(ngModel)]="database" >
+        <label for="first">ORACLE_SID</label>
+        <input type="text" class="form-control"  value={{sid}} name="sid"  id="database"  [(ngModel)]="sid" required>
          
       </div>
     </div>
@@ -17,24 +17,30 @@
     <div class="col-md-3 ">
       <div class="form-group">
         <label for="last">Address IP</label>
-        <input type="text" class="form-control" formControlName="ip"  name="ip" id="ip">
+        <input type="text" class="form-control" name="ip" id="ip" [(ngModel)]="ip" pattern="^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})$" required>
       </div>
     </div>
       <!--  col-md-3   -->
      <div class="col-md-3">
         <div class="form-group">
           <label for="last">Port </label>
-          <input type="text" class="form-control"  name="port" id="port">
+          <input type="text" class="form-control" name="port"  id="port" [(ngModel)]="port" required>
         </div>
       </div>
       <div class="col-md-2 offset-md-1">
           <div class="form-group">
 
            <label for="last"> </label>
-            <button class="btn btn-success ">Modifier</button>
+            <button class="btn btn-success " (click)="onSubmit()" [disabled]="!tnsname.valid">Modifier</button>
+            <button class="btn btn-danger offset-md-1" (click)="onDeconnect()" >ignorer</button>
           </div>
+          
        </div>
-
-    <!--  col-md-3   -->
+    
+  <!--  col-md-3   -->
   </div>
-</form>
+</form>   
+  <div class="col-md-3 offset-md-1">    
+      <p *ngFor="let m of msg">{{m}}</p>
+      </div>   
+    

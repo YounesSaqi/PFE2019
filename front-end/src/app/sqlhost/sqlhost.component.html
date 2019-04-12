@@ -1,13 +1,15 @@
 <br>
 <br>
-<h2>
+<h2 class=" offset-md-1">
  Info "hosts"
-</h2>
+</h2> 
+<form #sqlform="ngForm">
 <div class="row">
+  
     <div class="col-md-3  offset-md-1">
       <div class="form-group">
         <label for="first">Instance</label>
-        <input type="text" class="form-control"  value={{database}} name="database"  id="database" disabled [(ngModel)]="instancee" >
+        <input type="text" class="form-control"  value={{database}} name="database"  id="database" disabled [(ngModel)]="instancee" required >
          
       </div>
     </div>
@@ -16,23 +18,25 @@
     <div class="col-md-3 ">
       <div class="form-group">
         <label for="last">Address IP</label>
-        <input type="text" class="form-control"   name="ip" id="ip" [(ngModel)]="ip">
+        <input type="text" class="form-control"   name="ip" id="ip" [(ngModel)]="ip" pattern="^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})$" required>
       </div>
     </div>
       <!--  col-md-3   -->
      <div class="col-md-3">
         <div class="form-group">
           <label for="last">Port </label>
-          <input type="text" class="form-control"  name="port" id="port" [(ngModel)]="port">
+          <input type="text" class="form-control"  name="port" id="port" [(ngModel)]="port" pattern="^(0|[1-9][0-9]*)$" required>
         </div>
       </div>
       <div class="col-md-2 offset-md-1">
           <div class="form-group">
 
            <label for="last"> </label>
-            <button class="btn btn-success " (click)="onSubmit()">Modifier</button>
+            <button class="btn btn-success " (click)="onSubmit()" [disabled]="!sqlform.valid">Modifier</button>
+            <button class="btn btn-danger offset-md-1" (click)="onDeconnect()" >ignorer</button>
           </div>
        </div>
-
+   
     <!--  col-md-3   -->
   </div>
+</form>

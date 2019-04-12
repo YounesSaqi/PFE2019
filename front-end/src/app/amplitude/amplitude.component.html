@@ -1,12 +1,13 @@
 <br>
-<div class="container">
-  <form  [formGroup]="connForm" (ngSubmit)="onSubmit()">
+<div class="container" *ngIf="session=='true'; else other_content">
+  <form name="form"  [formGroup]="connForm"    (ngSubmit)="onSubmit() " >
     <h2>Connexion ssh</h2>
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
           <label for="first">Host IP</label>
-          <input type="text" class="form-control" formControlName="host" name="host" placeholder="xxx.xxx.xxx.xxx" id="host" [ngClass]="{ 'is-invalid': submitted && f.host.errors }">
+          <input type="text" class="form-control"  formControlName="host" name="host" placeholder="xxx.xxx.xxx.xxx" id="host" pattern="^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})$" >
+          
            
         </div>
       </div>
@@ -15,7 +16,8 @@
       <div class="col-md-6">
         <div class="form-group">
           <label for="last">Utilisateur</label>
-          <input type="text" class="form-control" formControlName="user"placeholder="user" name="user" id="user">
+          <input type="text" class="form-control" formControlName="user"placeholder="user" name="user" id="user" >
+          
         </div>
       </div>
       <!--  col-md-6   -->
@@ -26,7 +28,8 @@
       <div class="col-md-6">
         <div class="form-group">
           <label for="company">password</label>
-          <input type="password" class="form-control" formControlName="password" name="password"placeholder="***" id="password">
+          <input type="password" class="form-control" formControlName="password" name="password"placeholder="***" id="password" >
+        
         </div>
 
 
@@ -42,11 +45,12 @@
       </div>
       <!--  col-md-6   -->
     </div>
-    <div>{{msg}}</div>
+    
     <!--  row   -->
-    <button  class="btn btn-primary">Submit</button>
+    <button type="submit"  class="btn btn-primary" [disabled]="!connForm.valid">Submit</button>
   </form>
-
+ <div>{{msg}}</div>
  
 
 </div>
+<ng-template class=" offset-md-5" #other_content><a href="/login">You must login......</a></ng-template>

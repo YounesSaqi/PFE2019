@@ -1,5 +1,5 @@
 <br>
-<div class="col-md-10 offset-md-1">
+<div class="col-md-10 offset-md-1" *ngIf="session=='true'; else other_content">
   <h2> Page d'acceuill</h2>
   <div class="box">
     <div class="container">
@@ -107,3 +107,4 @@
 </div>
   
 </div>
+<ng-template class=" offset-md-5" #other_content><a href="/login">You must login......</a></ng-template>
