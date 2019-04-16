@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.DAO.SShDAO;
 import com.example.demo.Entities.Commande;
+import com.example.demo.Entities.Genero;
 import com.example.demo.Entities.SSHConnection;
 import com.example.demo.Entities.sqlhost;
 import com.jcraft.jsch.*;
@@ -11,8 +12,7 @@ import com.jcraft.jsch.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 @RestController
 @CrossOrigin("*")
@@ -108,7 +108,7 @@ public class SShController {
 
 
     //copy fichier local vers server linux
-    @RequestMapping(value = "/copy", method = RequestMethod.POST)
+    @RequestMapping(value = "/co", method = RequestMethod.POST)
     public void copyfichier(String local,String host){
 
 
@@ -117,6 +117,14 @@ public class SShController {
     @RequestMapping(value = "/commande_host", method = RequestMethod.POST)
     public  String  ExecuteCommande_hosts(@RequestBody sqlhost shost) {
         String[] parts = shost.getInstance().split("\r\n");
+        String chaine=shost.getInstance()+"="+ "\\(DESCRIPTION =" +
+
+                "\\(ADDRESS = \\(PROTOCOL = TCP\\)\\( HOST = "+shost.getIp() +" \\)\\(PORT ="+shost.getPort()  +
+
+                "\\)\\)\\(CONNECT_DATA =" +
+
+                "\\(SERVER = DEDICATED\\)" +
+                "\\(SERVICE_NAME ="+shost.getInstance()+"\\)\\)\\)";
         String CommandOutput = null;
         try {
             // System.out.println("Connected");
@@ -126,7 +134,7 @@ public class SShController {
             channel.setInputStream(null);
             ((ChannelExec) channel).setErrStream(System.err);
             System.out.println(parts[0]);
-            ((ChannelExec) channel).setCommand("echo '" +parts[0]+"  "+ "onsoctcp"+"  "+ shost.getIp() +"  "+shost.getPort() + "' >> /opt/informix/etc/sqlhosts."+parts[0]);
+            ((ChannelExec) channel).setCommand("sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'echo -e "+ chaine+" >>  $ORACLE_HOME/network/admin/tnsnames.ora'");
             ((ChannelExec) channel).setErrStream(System.err);
 
 
@@ -154,7 +162,7 @@ public class SShController {
             }
             //   channel.disconnect();
             //    session.disconnect();
-            // System.out.println("DONE");
+           // System.out.println("hejhhj");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -165,8 +173,78 @@ public class SShController {
 
 
     }
-     public void deconnect(){
+
+    @RequestMapping(value = "/deconnect", method = RequestMethod.GET)
+     public String deconnect(){
          session.disconnect();
          System.out.println("DONE");
+         return "deconnect";
      }
+
+
+//copy file VM vers localhost
+@RequestMapping(value = "/copy", method = RequestMethod.POST)
+    public  void copyRemoteToLocal(@RequestBody Genero copy) throws JSchException, IOException {
+
+
+    ChannelSftp channelSftp = null;
+    try{
+     Channel channel = session.openChannel("sftp");
+  //   ((ChannelExec)channel).setPty(true);
+    channel.connect();
+    channelSftp = (ChannelSftp) channel;
+    channelSftp.cd("/tmp");
+    byte[] buffer = new byte[1024];
+    BufferedInputStream bis = new BufferedInputStream(channelSftp.get(copy.getFrom()+"/"+copy.getFile()));
+    File newFile = new File("d:\\Profiles\\ysaqi\\Desktop\\tmp\\" + copy.getFile());
+    OutputStream os = new FileOutputStream(newFile);
+    BufferedOutputStream bos = new BufferedOutputStream(os);
+    int readCount;
+    while ((readCount = bis.read(buffer)) > 0) {
+        System.out.println("Writing: ");
+        bos.write(buffer, 0, readCount);
+    }
+    bis.close();
+    bos.close();
+} catch (Exception ex) {
+        ex.printStackTrace();
+    }
+
+      //  channel.disconnect();
+        //session.disconnect();
+    }
+
+    //copy file local vers VM
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public  void copyLocalToRemote(@RequestBody Genero copy) throws Exception {
+        try {
+            Channel channel = session.openChannel("sftp");
+            channel.connect();
+            ChannelSftp sftp = (ChannelSftp) channel;
+
+            sftp.cd("/tmp");
+            sftp.put(copy.getFrom(), copy.getTo());
+
+            Boolean success = true;
+
+            if (success) {
+                System.out.println("The file has been uploaded succesfully");
+     //           return "succesfully";
+            }
+
+           // channel.disconnect();
+
+        } catch (JSchException e) {
+            throw e;
+
+        } catch (SftpException e) {
+            throw e;
+
+        }
+   //     return "The file has been ...";
+    }
+
+
+
+
     }
