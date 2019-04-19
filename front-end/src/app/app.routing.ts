@@ -7,7 +7,7 @@ import {PageAcceuillComponent} from "./page-acceuill/page-acceuill.component";
 import {AmplitudeComponent} from "./amplitude/amplitude.component";
 import {TnsnameOraComponent} from "./tnsname-ora/tnsname-ora.component"
 import {SqlhostComponent} from "./sqlhost/sqlhost.component"
-
+import {GeneroComponent} from "./genero/genero.component"
 import {ConnexionApplicatifComponent} from "./connexion-applicatif/connexion-applicatif.component"
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'applicatif', component: ConnexionApplicatifComponent},
   { path: 'tnsname', component: TnsnameOraComponent },
   { path: 'sqlhosts', component: SqlhostComponent },
-
+  { path: 'genero', component: GeneroComponent },
   {path : '', component : LoginComponent}
 ];
 

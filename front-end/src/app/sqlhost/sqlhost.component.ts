@@ -15,8 +15,8 @@ export class SqlhostComponent implements OnInit {
   ipport;database;touch;instancee;ip;;port:any;
   str1;str2;str3:string;
   formtns;Form_touch;Form_base;Form_write:FormGroup;
-
-  instance:string="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'echo $INFORMIXSERVER'";
+  splited;
+  instance:string="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'echo $BANK && echo $DATABASE && echo $ORACLE_SID && echo $INFORMIXSERVER'";
 
   ngOnInit() {
  
@@ -27,8 +27,9 @@ export class SqlhostComponent implements OnInit {
         
    this.hostService.ExcuteCommande(this.Form_base.value)
    .subscribe(data=> {
-       
-    this.instancee=data.commande;
+       console.log(data)
+       this.splited=data.commande.split("\r\n")
+       this.instancee=this.splited[this.splited.length -2];
      });
 
 

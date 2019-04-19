@@ -18,6 +18,7 @@ import { AmplitudeComponent } from './amplitude/amplitude.component';
 import { ConnexionApplicatifComponent } from './connexion-applicatif/connexion-applicatif.component';
 import { SqlhostComponent } from './sqlhost/sqlhost.component';
 import { TnsnameOraComponent } from './tnsname-ora/tnsname-ora.component';
+import { GeneroComponent } from './genero/genero.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { TnsnameOraComponent } from './tnsname-ora/tnsname-ora.component';
     ConnexionApplicatifComponent,
     SqlhostComponent,
     TnsnameOraComponent,
+    GeneroComponent,
   ],
   imports: [
     BrowserModule,

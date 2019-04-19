@@ -12,14 +12,14 @@ import { splitDepsDsl } from '@angular/core/src/view/util';
   styleUrls: ['./connexion-applicatif.component.css']
 })
 export class ConnexionApplicatifComponent implements OnInit {
-  commForm;commForm2;UpdateForm;UpdateForm2;UpdateForm3;password_bank:FormGroup;
+  commForm;commForm2;UpdateForm;UpdateForm2;UpdateForm3;UpdateForm4;UpdateForm5;password_bank:FormGroup;
 
-   base:string="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'echo $BANK && echo $DATABASE && echo $ORACLE_SID && echo $INFORMIXSERVER'";
+   base:string="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'echo $FGLDIR && echo $BANK && echo $DATABASE && echo $ORACLE_SID && echo $INFORMIXSERVER'";
    btl;
    usrApp:string="ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1";
-   bd;sid;inst;passwrd;password;
+   bd;gene;amp;sid;inst;passwrd;password;genero;geneo;
    splited;Type;Instance:any;   
-   msg;amplitude;pswd;session
+   msg;amplitude;pswd;session;amplit
    database;data;text:any;
 
   constructor(private formBuilder: FormBuilder,private hostService:HostService,private router: Router) { 
@@ -51,10 +51,13 @@ export class ConnexionApplicatifComponent implements OnInit {
           
             this.splited=data.commande.split("\r\n")
              console.log(this.splited);
+            this.geneo=this.splited[this.splited.length -6];
+            this.genero=this.splited[this.splited.length -6];
             this.database=this.splited[this.splited.length -4];
             this.data=this.database;
             this.password=this.database;
             this.amplitude=this.splited[this.splited.length -5];
+            this.amplit=this.splited[this.splited.length -5];
             if(this.splited[this.splited.length -3]!=""){
                 this.Type="Oracle";
                 this.Instance=this.splited[this.splited.length -3]
@@ -92,12 +95,25 @@ export class ConnexionApplicatifComponent implements OnInit {
   onSubmit(form) {
     this.pswd = "\""+ form.value['password']+  "\""; 
 
+     this.gene="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c  'sed -i -e s#"+this.geneo+"#"+ form.value['genero'] + "# $AMPLITUDE_PROFILE/my_env_amplitude $AMPLITUDE_PROFILE/env_amplitude ~/.bash_profile  '";
+     this.amp="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c  'sed -i -e s#"+this.amplit+"#"+ form.value['amplitude'] + "# $AMPLITUDE_PROFILE/my_env_amplitude $AMPLITUDE_PROFILE/env_amplitude ~/.bash_profile  '";
      this.bd="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c  'sed -i -e s/"+this.database+"/"+ form.value['data'] + "/g ~/.bash_profile $FGLDIR/etc/fglprofile.bank '";
      this.inst="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c  'sed -i -e s/"+this.Instance+"/"+ form.value['sid'] + "/g ~/.bash_profile  $AMPLITUDE_PROFILE/my_env_amplitude $AMPLITUDE_PROFILE/env_amplitude $FGLDIR/etc/fglprofile.bank '";
      this.passwrd="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'sed -i 's/"+this.database+".password.*/"+form.value['data']+".password="+  form.value['password']  +"/g'  $FGLDIR/etc/fglprofile.bank '";
      console.log(this.passwrd);
      //this.userr= "sed -i 's/password.*/password="+this.audioUrl+"/g' cih.txt";
    if(this.database!=null && this.Instance!=null){
+
+
+    //genero
+     this.UpdateForm5=this.formBuilder.group({
+      commande:[this.gene,Validators.required]
+        });
+    
+    //Amplitude
+    this.UpdateForm4=this.formBuilder.group({
+      commande:[this.amp,Validators.required]
+        });
 
 
     //base de donnee
@@ -118,10 +134,22 @@ export class ConnexionApplicatifComponent implements OnInit {
        this.hostService.ExcuteCommande(this.UpdateForm3.value)
        .subscribe(data=> {                 
        });
-//bd
+    //bd
       this.hostService.ExcuteCommande(this.UpdateForm.value)
      .subscribe(data=> {
                
+     });
+//genero
+console.log(this.UpdateForm5.value)
+     this.hostService.ExcuteCommande(this.UpdateForm5.value)
+     .subscribe(data=> {
+               console.log(data)
+               console.log(this.UpdateForm5.value)
+     });
+//   //amplitude
+     this.hostService.ExcuteCommande(this.UpdateForm4.value)
+     .subscribe(data=> {
+    //  console.log(data) 
      });
 
  //inst
@@ -145,7 +173,7 @@ export class ConnexionApplicatifComponent implements OnInit {
            
         });
    
-       }
+        }
 }
 onDeconnect(){
 
