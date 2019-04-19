@@ -1,0 +1,54 @@
+
+<div class="col-md-8 offset-md-2 ">
+  <br><br>
+     <div>
+        <h2 class="text-center">upload genero</h2>
+    <form  (ngSubmit)="onUpload()" class = "form" role = "form"> 
+        <table> 
+        <tr>
+            <th>
+              <label for="">chemin fichier local   : </label>
+            </th>
+            <td >             
+                <input type = "text" name="from"  class="form-control " placeholder="respecter \\" [(ngModel)]="from" id = "inputfile">           
+            </td>  
+          </tr>
+        <tr>
+          <th>
+            <label for="lic1">chemin VM:</label>
+          </th>
+          <td  width="80%" >              
+            <input type="text"  name="to" class="form-control" id="to" [(ngModel)]="to"  required>
+          </td>  
+        </tr>
+        
+        
+        <button type = "submit" class = "btn btn-default">Submit</button>
+        </table>
+    </form>
+    <div class="bg-success text-white">{{msg}}</div>
+    </div>
+    <br><br>
+    <p>------------------------------------------------------------------------------------------------------------------------</p>
+  <h2 class="text-center">Licence Genero</h2>
+  <form  (ngSubmit)="onSubmit()" #addkey="ngForm">
+      <fieldset>
+    <div class="form-group">
+      <label for="lic1">licence 1:</label>
+      <input type="text"  name="lic1" class="form-control" id="lic1" [(ngModel)]="lic1"  required>
+    </div>
+
+    <div class="form-group">
+      <label for="lic1">licence 2:</label>
+      <input type="text"  name="lic2" class="form-control" id="lic2" [(ngModel)]="lic2"  required>
+    </div>
+    <div class="form-group">
+      <label for="maint">licence Maintenance:</label>
+      <input   name="maint" class="form-control" id="maint" value={{maint}} [(ngModel)]="maint">
+    </div>
+    <button type="submit" class="btn btn-warning" [disabled]="!addkey.valid" >Send <span class="glyphicon glyphicon-send"></span></button>
+  </fieldset>
+  </form>
+
+
+</div>

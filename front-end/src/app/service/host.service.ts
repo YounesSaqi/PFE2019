@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Host} from "../model/host.model";
 import {Commande} from "../model/commande.model"
+import {Genero} from "../model/genero.model"
+
 import {SqlHost} from "../model/sqlhost.model"
 @Injectable()
 export class HostService {
@@ -34,7 +36,10 @@ export class HostService {
   Excutestnsnames(sqlhost:SqlHost){
     return this.http.post('http://localhost:8080/ssh/commande_host',sqlhost)
   }
-
+ Uploadservice(genero:Genero){
+   
+   return this.http.post('http://localhost:8080/ssh/upload',genero)
+ }
   deconnexion(){   
     return this.http.get('http://localhost:8080/ssh/deconnect');
   }
