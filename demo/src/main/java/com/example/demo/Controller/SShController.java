@@ -2,10 +2,7 @@ package com.example.demo.Controller;
 
 
 import com.example.demo.DAO.SShDAO;
-import com.example.demo.Entities.Commande;
-import com.example.demo.Entities.Genero;
-import com.example.demo.Entities.SSHConnection;
-import com.example.demo.Entities.sqlhost;
+import com.example.demo.Entities.*;
 import com.jcraft.jsch.*;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.Channel;
@@ -184,7 +181,7 @@ public class SShController {
 
 //copy file VM vers localhost
 @RequestMapping(value = "/copy", method = RequestMethod.POST)
-    public  void copyRemoteToLocal(@RequestBody Genero copy) throws JSchException, IOException {
+    public  void copyRemoteToLocal(@RequestBody TransfertFile copy) throws JSchException, IOException {
 
 
     ChannelSftp channelSftp = null;
@@ -216,7 +213,7 @@ public class SShController {
 
     //copy file local vers VM
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public  void copyLocalToRemote(@RequestBody Genero copy) throws Exception {
+    public  void copyLocalToRemote(@RequestBody TransfertFile copy) throws Exception {
         try {
             Channel channel = session.openChannel("sftp");
             channel.connect();
@@ -245,6 +242,74 @@ public class SShController {
     }
 
 
+    //Excution des commandes
+    @RequestMapping(value = "/commande_export", method = RequestMethod.POST)
+    public  void  exportDb(@RequestBody Export export) {
+        String CommandOutput = null;
+        String cmd="";
+        try {
+            // System.out.println("Connected");
+            Channel channel = session.openChannel("exec");
+            ((ChannelExec)channel).setPty(true);
+            InputStream in = channel.getInputStream();
+            channel.setInputStream(null);
+            ((ChannelExec) channel).setErrStream(System.err);
+
+            if(export.getTypeBd().equals("O")){
+                String directory= export.getCheminExport()+"export/";
+                if(!export.getTypeExport().equals("full")) {
+                    cmd = "sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'sh " + export.getCheminExport() + "/exportOracle.sh " + export.getUser() + " " + export.getPassword() + " " + export.getSid() + " " + export.getNomDump() +" "+export.getTypeExport()+" "+export.getNomObjetAexporter()+" "+directory +"'";
+                }
+                else{
+                    cmd = "sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'sh " + export.getCheminExport() + "/exportInformix.sh " + export.getUser() + " " + export.getPassword() + " " + export.getSid() + " " + export.getNomDump() +" "+directory +"'";
+                }
+            }
+            else
+            {
+                cmd="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'sh "+ export.getCheminExport() +"/exportInformix.sh "+ export.getUser() +" "+export.getPassword() +" "+export.getInstance()+" "+ export.getDatabase()+" "+export.getNomDump()+" "+ export.getTypeExport()+" " +export.getNomObjetAexporter()+"'";
+            }
+
+
+
+            ((ChannelExec) channel).setCommand(cmd);
+            ((ChannelExec) channel).setErrStream(System.err);
+
+
+            channel.connect();
+            byte[] tmp = new byte[1024];
+            while (true) {
+                while (in.available() > 0) {
+                    int i = in.read(tmp, 0, 1024);
+
+                    if (i < 0)
+                        break;
+                    // System.out.print(new String(tmp, 0, i));
+                    CommandOutput = new String(tmp, 0, i);
+                }
+
+                if (channel.isClosed()) {
+                    // System.out.println("exit-status: " +
+                    // channel.getExitStatus());
+                    break;
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception ee) {
+                }
+            }
+            //   channel.disconnect();
+            //    session.disconnect();
+            // System.out.println("DONE");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
 
     }
+
+
+
+
+}

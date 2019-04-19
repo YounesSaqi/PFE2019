@@ -7,6 +7,8 @@ import {PageAcceuillComponent} from "./page-acceuill/page-acceuill.component";
 import {AmplitudeComponent} from "./amplitude/amplitude.component";
 import {TnsnameOraComponent} from "./tnsname-ora/tnsname-ora.component"
 import {SqlhostComponent} from "./sqlhost/sqlhost.component"
+import {ExportComponent}  from "./export/export.component"
+
 
 import {ConnexionApplicatifComponent} from "./connexion-applicatif/connexion-applicatif.component"
 const routes: Routes = [
@@ -19,6 +21,7 @@ const routes: Routes = [
   { path: 'applicatif', component: ConnexionApplicatifComponent},
   { path: 'tnsname', component: TnsnameOraComponent },
   { path: 'sqlhosts', component: SqlhostComponent },
+  { path: 'export', component:ExportComponent},
 
   {path : '', component : LoginComponent}
 ];

@@ -1,16 +1,16 @@
 package com.example.demo.Entities;
 
-public class Genero {
+public class TransfertFile {
 
     String from;
     String to;
     String file;
 
-    public Genero() {
+    public TransfertFile() {
     }
 
 
-    public Genero(String from, String to, String file) {
+    public TransfertFile(String from, String to, String file) {
         this.from = from;
         this.to = to;
         this.file = file;
