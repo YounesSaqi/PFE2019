@@ -1,0 +1,93 @@
+
+<br>
+
+<div class="container" *ngIf="session=='true'; else other_content">
+
+    <h2>Extraction des BD ORACLE/INFORMIX  </h2><br>
+  <form  #myform="ngForm" (ngSubmit)="onSubmit(myform)">
+    <table class="table">
+        
+         
+          <tr>
+              <th>Utilisateur Applicatif</th>
+            
+          <td><input type="text"  name="userApp"  class="form-control"  [(ngModel)]="userApp" required> </td>
+            </tr> 
+            <tr>
+              <th>Password applicatif</th>
+             
+          <td><input type="text"  name="passSys"  class="form-control"  [(ngModel)]="passSys" required> </td>
+            </tr>
+
+            <tr>
+              <th>Adresse de VM</th>
+             
+          <td><input type="text"  name="adrIp"  class="form-control"  [(ngModel)]="adrIp" placeholder="xxx.xxx.xxx.xxx" id="host" pattern="^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})$" required> </td>
+            </tr>
+            <tr>
+                <th>Utilisateur BD</th>
+               
+            <td><input type="text"  name="userDB"  class="form-control"  [(ngModel)]="userDB" required> </td>
+              </tr> 
+              <tr>
+                  <th>Password BD</th>
+                  
+              <td><input type="text"  name="passDB"  class="form-control"  [(ngModel)]="passDB" required> </td>
+                </tr> 
+          <tr>
+
+            <th>Chemin du Dump</th>
+           
+      <td><input type="text"  name="cheminDmp"  class="form-control" [(ngModel)]="cheminDmp" required> </td>
+
+          </tr> 
+           <tr>
+            <th>Type de Base de données</th>
+            <td>
+                <select [(ngModel)]="typBd" name="typBd" (change)="selectTypBd()" class="form-control">
+                    <option value='Oracle'>Oracle</option>
+                    <option value='Informix'>Informix</option>
+                    
+                  </select>
+            </td>
+           </tr>
+           <tr *ngIf="typBd != ''" >
+              <th *ngIf="typBd != ''" >Type d'objet à exporter</th>
+              <td>
+                  <select class="form-control" *ngIf="typBd != ''" [(ngModel)]="objExport" name="objExport" (change)="selectObjExport()">
+                   
+                      <option *ngFor="let obj of listObjExport" >{{obj}}</option>
+                    </select>
+              </td>
+             </tr>
+
+             <tr *ngIf="objExport != 'Full' && objExport!=''">
+                <th *ngIf="objExport != 'Full' && objExport!=''" >{{thObjTh}}</th>
+                <td> <input *ngIf="objExport != 'Full' && objExport!=''" type="text"  name="nomObjExport"  class="form-control" value={{nomObjExport}} [(ngModel)]="nomObjExport" required > </td>
+               </tr>
+           <tr *ngIf="typBd != ''">
+            <th *ngIf="typBd != ''" >Instance</th>
+            <td> <input type="text"  name="instance" *ngIf="typBd != ''"   class="form-control" value={{Instance}} [(ngModel)]="instance" required > </td>
+           </tr>
+           <tr *ngIf="typBd == 'Informix'">
+              <th *ngIf="typBd == 'Informix'" >Database</th>
+              <td> <input *ngIf="typBd == 'Informix'" type="text"  name="database"   class="form-control" value={{database}} [(ngModel)]="database" required > </td>
+             </tr>
+            
+        
+            <tr>
+              <td> <button class="btn btn-danger" (click)="onDeconnect()" >Annuler</button></td>
+              <td>
+               <button class="btn btn-success offset-md-11 " >Modifier</button>
+              
+               </td>
+            </tr>
+      </table>
+   </form>
+
+</div>
+<ng-template class=" offset-md-5" #other_content><a href="/login">You must login......</a></ng-template>
+
+
+
+
