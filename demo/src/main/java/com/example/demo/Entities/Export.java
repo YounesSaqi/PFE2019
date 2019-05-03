@@ -4,8 +4,9 @@ public class Export {
 
 
     String instance;
-    String user;
-    String password;
+    String userBd;
+    String passwdBd;
+    String nomObjExport;
     String database;
     String sid;
     String cheminExport;
@@ -13,24 +14,33 @@ public class Export {
     String typeBd;
 
 
-
     String nomObjetAexporter;
     String nomDump;
+
+    public String getNomObjExport() {
+        return nomObjExport;
+    }
+
+    public void setNomObjExport(String nomObjExport) {
+        this.nomObjExport = nomObjExport;
+    }
+
+
 
 
     public Export() {
     }
 
     public Export(String user,String password, String sid,String typeBd,String nomDump) {
-        this.user=user;
-        this.password=password;
+        this.userBd=user;
+        this.passwdBd=password;
 this.typeBd=typeBd;
         this.sid=sid;
         this.nomDump=nomDump;
     }
     public Export(String user,String password, String instance,String database,String typeBd,String nomDump) {
-        this.user=user;
-        this.password=password;
+        this.userBd=user;
+        this.passwdBd=password;
         this.typeBd=typeBd;
         this.instance=instance;
         this.database=database;
@@ -71,21 +81,21 @@ this.typeBd=typeBd;
         this.nomDump = nomDump;
     }
 
-    public String getUser() {
-        return user;
+    public String getUserBd() {
+        return userBd;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUserBd(String userBd) {
+        this.userBd = userBd;
     }
 
 
-    public String getPassword() {
-        return password;
+    public String getPasswdBd() {
+        return passwdBd;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswdBd(String passwdBd) {
+        this.passwdBd = passwdBd;
     }
 
     public String getTypeBd() {

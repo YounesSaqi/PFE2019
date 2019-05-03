@@ -67,7 +67,7 @@
                </tr>
            <tr *ngIf="typBd != ''">
             <th *ngIf="typBd != ''" >Instance</th>
-            <td> <input type="text"  name="instance" *ngIf="typBd != ''"   class="form-control" value={{Instance}} [(ngModel)]="instance" required > </td>
+            <td> <input type="text"  name="instance" *ngIf="typBd != ''"   class="form-control" value={{instance}} [(ngModel)]="instance" required > </td>
            </tr>
            <tr *ngIf="typBd == 'Informix'">
               <th *ngIf="typBd == 'Informix'" >Database</th>
@@ -78,7 +78,7 @@
             <tr>
               <td> <button class="btn btn-danger" (click)="onDeconnect()" >Annuler</button></td>
               <td>
-               <button class="btn btn-success offset-md-11 " >Modifier</button>
+               <button class="btn btn-success offset-md-11 " >exporter</button>
               
                </td>
             </tr>

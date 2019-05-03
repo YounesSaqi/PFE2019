@@ -241,10 +241,40 @@ public class SShController {
    //     return "The file has been ...";
     }
 
+    @RequestMapping(value = "/download",method = RequestMethod.POST)
+    public void downloadFile( @RequestBody String fileName) throws JSchException {
+
+
+        try {
+
+            Channel channel = session.openChannel("sftp");
+            channel.connect();
+            ChannelSftp sftp = (ChannelSftp) channel;
+            sftp.cd("/tmp");
+            byte[] buffer = new byte[1024];
+            BufferedInputStream bis = new BufferedInputStream(sftp.get("tmp/"+fileName));
+            File newFile = new File("d:/dump/" + fileName);
+            OutputStream os = new FileOutputStream(newFile);
+            BufferedOutputStream bos = new BufferedOutputStream(os);
+            int readCount;
+            while ((readCount = bis.read(buffer)) > 0) {
+                System.out.println("Writing: ");
+                bos.write(buffer, 0, readCount);
+            }
+            bis.close();
+            bos.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+
 
     //Excution des commandes
     @RequestMapping(value = "/commande_export", method = RequestMethod.POST)
     public  void  exportDb(@RequestBody Export export) {
+      //   System.out.print(export.getUserBd() + " " + export.getPasswdBd() + " " + export.getSid() + " " + export.getTypeBd() +" "+export.getTypeExport()+" "+export.getNomObjExport());
         String CommandOutput = null;
         String cmd="";
         try {
@@ -255,18 +285,25 @@ public class SShController {
             channel.setInputStream(null);
             ((ChannelExec) channel).setErrStream(System.err);
 
-            if(export.getTypeBd().equals("O")){
-                String directory= export.getCheminExport()+"export/";
-                if(!export.getTypeExport().equals("full")) {
-                    cmd = "sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'sh " + export.getCheminExport() + "/exportOracle.sh " + export.getUser() + " " + export.getPassword() + " " + export.getSid() + " " + export.getNomDump() +" "+export.getTypeExport()+" "+export.getNomObjetAexporter()+" "+directory +"'";
-                }
+            if(export.getTypeBd().equals("Oracle")){
+
+
+
+               String directory= export.getCheminExport()+"export/";
+                if(!export.getTypeExport().equals("Full")) {
+                    cmd = "sh  "  + export.getCheminExport() + "/export_oracle.sh " + export.getCheminExport() + " " +export.getUserBd() + " " + export.getPasswdBd() + " " + export.getSid()  +" "+export.getTypeExport()+" "+export.getNomObjExport() +"";
+                    System.out.println(cmd);
+
+               }
                 else{
-                    cmd = "sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'sh " + export.getCheminExport() + "/exportInformix.sh " + export.getUser() + " " + export.getPassword() + " " + export.getSid() + " " + export.getNomDump() +" "+directory +"'";
+                    cmd = "sh  "  + export.getCheminExport() + "/export_oracle.sh " + export.getCheminExport() + " " + export.getUserBd() + " " + export.getPasswdBd() + " " + export.getSid() + " " + export.getTypeExport()  + "  Full";
+                    System.out.println(cmd);
+
                 }
             }
-            else
-            {
-                cmd="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'sh "+ export.getCheminExport() +"/exportInformix.sh "+ export.getUser() +" "+export.getPassword() +" "+export.getInstance()+" "+ export.getDatabase()+" "+export.getNomDump()+" "+ export.getTypeExport()+" " +export.getNomObjetAexporter()+"'";
+           else
+           {
+               // cmd="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'sh "+ export.getCheminExport() +"/exportInformix.sh "+ export.getUserBd() +" "+export.getPasswdBd() +" "+export.getInstance()+" "+ export.getDatabase()+" "+export.getNomDump()+" "+ export.getTypeExport()+" " +export.getNomObjetAexporter()+"'";
             }
 
 
@@ -283,7 +320,8 @@ public class SShController {
 
                     if (i < 0)
                         break;
-                    // System.out.print(new String(tmp, 0, i));
+
+
                     CommandOutput = new String(tmp, 0, i);
                 }
 
