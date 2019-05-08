@@ -17,6 +17,7 @@ import { Genero } from '../model/genero.model';
 
 export class ExportComponent implements OnInit {
 
+  versBd;
   userApp;passSys;adrIp;expForm;
   userDB;passDB;
   cheminDmp: String;
@@ -34,7 +35,7 @@ export class ExportComponent implements OnInit {
   cmdDernierFile;
   dumpFile;
   thObjTh;transfertFile;database;instance;nomObjExport; chemin;
-
+  cmdchmodDump;splited;
 
    connForm;usrApp;cmdchmod;base;
    cmd;
@@ -57,7 +58,7 @@ export class ExportComponent implements OnInit {
     
   
   
-    onSubmit() {
+   async onSubmit() {
     //   let delay =duration => new Promise((resolve,reject)=>{
     //    setTimeout(() =>{ resolve(); },duration
     //   )
@@ -88,9 +89,9 @@ export class ExportComponent implements OnInit {
          commande:["chmod 777 "+this.chemin+"/export_oracle.sh",Validators.required]
       });
       this.cmdDernierFile=this.formBuilder.group({
-        commande:["ls -rt "+this.chemin+" | tail -1 | awk '{print $9}'",Validators.required]
+        commande:["ls -rt " +this.chemin+" | tail -1",Validators.required]
      });
-      
+     
       
 
 
@@ -106,7 +107,8 @@ export class ExportComponent implements OnInit {
     sid : [this.instance, Validators.required],
     cheminExport : [this.chemin, Validators.required],
    typeExport : [this.objExport, Validators.required],
-    typeBd : [this.typBd, Validators.required]
+    typeBd : [this.typBd, Validators.required],
+    versBd:[this.versBd,Validators.required]
         
       });
     //  this.fonctionAsynchroneOk(this.transfertFile.value).then(this.hostService.Uploadservice) ; 
@@ -114,49 +116,80 @@ export class ExportComponent implements OnInit {
       console.log("helo world !!")
       console.log("user :: "  +this.userApp+" pass :: "+this.passSys+" adr :: "+this.adrIp);
           console.log(this.connForm.value);
-        this.hostService.connectHost(this.connForm.value)
-          .subscribe( data => {
-            if(data!=null){
-           //   localStorage.removeItem("commandUsr");
-           console.log("param conex :: "+this.connForm.value);
-              this.msg='connected';
-              console.log("session :: "+data);
+
+
+          // let chaine ="tttt\r";
+          // chaine=chaine.replace("\\\r","");
+          // console.log(chaine);
+         
+            this.session = await this.hostService.connectHost(this.connForm.value);
+            console.log("session :: "+this.session);
+            let upload= await this.hostService.Uploadservice(this.transfertFile.value);
+            console.log("upload file :: "+upload);
+            let cmdCh= await this.hostService.ExcuteCommande(this.cmdchmod.value);
+            console.log("chmod 777 file  :: "+cmdCh);
+            let exp= await  this.hostService.ExcuteExport(this.expForm.value);
+            console.log("export   :: "+exp);
+            let dernierFile = await this.hostService.ExcuteCommande(this.cmdDernierFile.value);
+            this.splited=dernierFile.commande.split("\r\n")
+            console.log(this.splited);
+           console.log(this.splited[this.splited.length -1]);
+            console.log("dernier file   :: "+this.splited[this.splited.length -2]);
+            dernierFile.commande=this.chemin+"/"+this.splited[this.splited.length -2];
+            //dernierFile.commande=dernierFile.commande.replace("\\\r","");
+            //console.log(dernierFile.commande);
+
+            this.cmdchmodDump=this.formBuilder.group({
+              commande:["chmod 777 "+dernierFile.commande,Validators.required]
+           });
+            let cmdChDump= await this.hostService.ExcuteCommande(this.cmdchmodDump.value);
+            let download= await this.hostService.Downloadservice(dernierFile.commande);
+        
+
+        // this.hostService.connectHost(this.connForm.value)
+        //   .subscribe( data => {
+        //     if(data!=null){
+        //    //   localStorage.removeItem("commandUsr");
+        //    console.log("param conex :: "+this.connForm.value);
+        //       this.msg='connected';
+        //       console.log("session :: "+data);
               
 
-             this.delay(()=> {
-                      this.hostService.Uploadservice(this.transfertFile.value)
-                      .subscribe(data=> {              
-                      console.log(data); });
+        //      this.delay(()=> {
+        //               this.hostService.Uploadservice(this.transfertFile.value)
+        //               .subscribe(data=> {              
+        //               console.log(data); });
 
-                      this.delay(() => {
-                        this.hostService.ExcuteCommande(this.cmdchmod.value)
-                        .subscribe(data=> {              
-                          console.log(data);});
+        //               this.delay(() => {
+        //                 this.hostService.ExcuteCommande(this.cmdchmod.value)
+        //                 .subscribe(data=> {              
+        //                   console.log(data);});
 
-                          this.delay(() => {
-                            this.hostService.ExcuteExport(this.expForm.value)
-                            .subscribe(data=> { 
-                              console.log(this.expForm.value)   ;          
-                              console.log(data);
+        //                   this.delay(() => {
+        //                     this.hostService.ExcuteExport(this.expForm.value)
+        //                     .subscribe(data=> { 
+        //                       console.log(this.expForm.value)   ;          
+        //                       console.log(data);
 
-                             });
+        //                      });
 
-                             this.delay(() => {
-                              this.hostService.ExcuteCommande(this.cmdDernierFile.value)
-                              .subscribe(data=> { 
-                                this.dumpFile=data;
+        //                      this.delay(() => {
+        //                       this.hostService.ExcuteCommande(this.cmdDernierFile.value)
+        //                       .subscribe(data=> { 
+        //                         console.log(data);
+        //                         this.dumpFile=data;
                                          
-                                console.log(this.dumpFile);
+        //                         console.log(this.dumpFile);
   
-                               });
+        //                        });
   
   
                                
-                            },300);
+        //                     },300);
 
-                          },500);
-                      },700);
-                    },1000 );
+        //                   },500);
+        //               },700);
+        //             },1000 );
                       
              
                     
@@ -166,26 +199,28 @@ export class ExportComponent implements OnInit {
                    
                     
                  
-              // this.hostService.Uploadservice(this.transfertFile.value).subscribe(data => {
-              // this.hostService.ExcuteCommande(this.cmdchmod.value) );
+        //       // this.hostService.Uploadservice(this.transfertFile.value).subscribe(data => {
+        //       // this.hostService.ExcuteCommande(this.cmdchmod.value) );
                  
-                  // this.hostService.uploadAndexecCmd(this.cmdchmod.value,this.transfertFile.value)
-                  // .then(data=> {
-                  //   console.log(" param transfert  :: "+this.transfertFile.value + " cmd chmd :: "+this.cmdchmod.value);
-                  //     console.log(data);  });
-                  // // this.router.navigate(['applicatif'])
-                  // .then(() => {
-                  //   window.location.reload();
-                  // });
-           // console.log(this.hostService.ExcuteCommande('ls -l /work'))
+        //           // this.hostService.uploadAndexecCmd(this.cmdchmod.value,this.transfertFile.value)
+        //           // .then(data=> {
+        //           //   console.log(" param transfert  :: "+this.transfertFile.value + " cmd chmd :: "+this.cmdchmod.value);
+        //           //     console.log(data);  });
+        //           // // this.router.navigate(['applicatif'])
+        //           // .then(() => {
+        //           //   window.location.reload();
+        //           // });
+        //    // console.log(this.hostService.ExcuteCommande('ls -l /work'))
             
-            }
-            else{
-            this.msg="Non Connection";
+          //   }
+          //   else{
+          //   this.msg="Non Connection";
             
-                 }
-          });
+          //        }
+          //  });
 
+
+    
 
           
 
@@ -247,6 +282,9 @@ export class ExportComponent implements OnInit {
     }
     selectObjExport(){
       this.thObjTh="Nom "+this.objExport;
+    }
+    selectVersBd(){
+      console.log(this.versBd);
     }
     
   }

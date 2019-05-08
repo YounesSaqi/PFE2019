@@ -52,6 +52,18 @@
             </td>
            </tr>
            <tr *ngIf="typBd != ''" >
+           <th *ngIf="typBd != ''">Version d'oracle</th>
+           <td>
+               <select [(ngModel)]="versBd" *ngIf="typBd != ''" name="versBd" (change)="selectVersBd()" class="form-control">
+                   <option value='12'>Serveur MDV</option>
+                   <option value='11'>Serveur 29</option>
+                   <option value='autre'>autres</option>
+                   
+                 </select>
+           </td>
+          </tr>
+
+           <tr *ngIf="typBd != ''" >
               <th *ngIf="typBd != ''" >Type d'objet à exporter</th>
               <td>
                   <select class="form-control" *ngIf="typBd != ''" [(ngModel)]="objExport" name="objExport" (change)="selectObjExport()">
