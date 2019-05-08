@@ -64,8 +64,9 @@ public class SShController {
                channel.setInputStream(null);
                 ((ChannelExec) channel).setErrStream(System.err);
 
-               ((ChannelExec) channel).setCommand(commande.getCommande());
+               System.out.println("commande :: " +commande.getCommande());
                ((ChannelExec) channel).setErrStream(System.err);
+               ((ChannelExec) channel).setCommand(commande.getCommande());
 
 
                channel.connect();
@@ -214,6 +215,9 @@ public class SShController {
     //copy file local vers VM
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public  void copyLocalToRemote(@RequestBody TransfertFile copy) throws Exception {
+
+        // roots of the path name
+
         try {
             Channel channel = session.openChannel("sftp");
             channel.connect();
@@ -244,7 +248,39 @@ public class SShController {
     @RequestMapping(value = "/download",method = RequestMethod.POST)
     public void downloadFile( @RequestBody String fileName) throws JSchException {
 
+        String chemin="";
 
+        File root[] = File.listRoots();
+        Boolean ok=false;
+
+        // check if the root is null or not
+        if (root != null) {
+            System.out.print("Roots are: ");
+
+
+
+            // display the roots of the path name
+            for (int i = 0; i < root.length; i++) {
+                System.out.print(root[i].getPath() + " ");
+                if (root[i].getPath().equals("D:\\"));
+                ok=true;
+            }
+        }
+        else {
+            System.out.println("There are no roots");
+        }
+         if(ok){
+           chemin="D:\\";
+         }
+         else{
+             chemin="C:\\";
+         }
+        System.out.println("chemin est :: "+ chemin);
+        System.out.println("dump file zippé est :: "+ fileName);
+        String[] list=fileName.split("/");
+
+        String file=list[list.length-1];
+        System.out.println("file: "+file);
         try {
 
             Channel channel = session.openChannel("sftp");
@@ -252,8 +288,9 @@ public class SShController {
             ChannelSftp sftp = (ChannelSftp) channel;
             sftp.cd("/tmp");
             byte[] buffer = new byte[1024];
-            BufferedInputStream bis = new BufferedInputStream(sftp.get("tmp/"+fileName));
-            File newFile = new File("d:/dump/" + fileName);
+            BufferedInputStream bis = new BufferedInputStream(sftp.get(fileName));
+
+            File newFile = new File(chemin + file);
             OutputStream os = new FileOutputStream(newFile);
             BufferedOutputStream bos = new BufferedOutputStream(os);
             int readCount;
@@ -291,12 +328,12 @@ public class SShController {
 
                String directory= export.getCheminExport()+"export/";
                 if(!export.getTypeExport().equals("Full")) {
-                    cmd = "sh  "  + export.getCheminExport() + "/export_oracle.sh " + export.getCheminExport() + " " +export.getUserBd() + " " + export.getPasswdBd() + " " + export.getSid()  +" "+export.getTypeExport()+" "+export.getNomObjExport() +"";
+                    cmd = "sh "  + export.getCheminExport() + "/export_oracle.sh " + export.getCheminExport() + " " +export.getUserBd() + " " + export.getPasswdBd() + " " + export.getSid()  +" "+export.getTypeExport()+" "+export.getNomObjExport() +" "+export.getVersBd() +"";
                     System.out.println(cmd);
 
                }
                 else{
-                    cmd = "sh  "  + export.getCheminExport() + "/export_oracle.sh " + export.getCheminExport() + " " + export.getUserBd() + " " + export.getPasswdBd() + " " + export.getSid() + " " + export.getTypeExport()  + "  Full";
+                    cmd = "sh "  + export.getCheminExport() + "/export_oracle.sh " + export.getCheminExport() + " " + export.getUserBd() + " " + export.getPasswdBd() + " " + export.getSid() + " " + export.getTypeExport()   + "  Full" + " "+ export.getNomObjExport() +"";
                     System.out.println(cmd);
 
                 }

@@ -14,6 +14,8 @@ public class Export {
     String typeBd;
 
 
+    String versBd;
+
     String nomObjetAexporter;
     String nomDump;
 
@@ -127,5 +129,13 @@ this.typeBd=typeBd;
 
     public void setNomObjetAexporter(String nomObjetAexporter) {
         this.nomObjetAexporter = nomObjetAexporter;
+    }
+
+    public String getVersBd() {
+        return versBd;
+    }
+
+    public void setVersBd(String versBd) {
+        this.versBd = versBd;
     }
 }
