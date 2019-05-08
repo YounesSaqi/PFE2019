@@ -22,17 +22,17 @@ export class HostService {
     return this.http.get<Host>(this.baseUrl + '/' + id);
   }
 
-  // connectHost(host: Host) {
-  //   return this.http.post(this.baseUrl+'/connect', host);
-  // }
-  async connectHost(host: Host):Promise<Host> {
+   connectHost(host: Host) {
+     return this.http.post(this.baseUrl+'/connect', host);
+  }
+  async connectHostAsync(host: Host):Promise<Host> {
     const response = await this.http.post<Host>(this.baseUrl+'/connect', host).toPromise();
     return response;
   }
-  //   ExcuteCommande(commande:Commande){
-  //   return this.http.post<Commande>(this.baseUrl + '/commande',  commande);
-  // }
-  async ExcuteCommande(commande:Commande):Promise<Commande> {
+     ExcuteCommande(commande:Commande){
+     return this.http.post<Commande>(this.baseUrl + '/commande',  commande);
+  }
+  async ExcuteCommandeAsync(commande:Commande):Promise<Commande> {
     const response = await this.http.post<Commande>(this.baseUrl + '/commande',  commande).toPromise();
     return response;
   }
@@ -58,14 +58,14 @@ export class HostService {
   }
 
 
-//    Uploadservice(genero:Genero){
+    Uploadservice(genero:Genero){
      
     
-//     return this.http.post('http://localhost:8080/ssh/upload',genero);
+     return this.http.post('http://localhost:8080/ssh/upload',genero);
      
-//  }
+ }
 
-async Uploadservice(genero:Genero):Promise<Genero> {
+async UploadserviceAsync(genero:Genero):Promise<Genero> {
   const response = await this.http.post<Genero>('http://localhost:8080/ssh/upload',genero).toPromise();
   return response;
 }
