@@ -1,4 +1,3 @@
-
 <br>
 
 <div class="container" *ngIf="session=='true'; else other_content">
@@ -16,7 +15,7 @@
             <tr>
               <th>Password applicatif</th>
              
-          <td><input type="password"  name="passSys"  class="form-control"  [(ngModel)]="passSys" required> </td>
+          <td><input type="text"  name="passSys"  class="form-control"  [(ngModel)]="passSys" required> </td>
             </tr>
 
             <tr>
@@ -32,7 +31,7 @@
               <tr>
                   <th>Password BD</th>
                   
-              <td><input type="password"  name="passDB"  class="form-control"  [(ngModel)]="passDB" required> </td>
+              <td><input type="text"  name="passDB"  class="form-control"  [(ngModel)]="passDB" required> </td>
                 </tr> 
           <tr>
 
@@ -99,7 +98,3 @@
 
 </div>
 <ng-template class=" offset-md-5" #other_content><a href="/login">You must login......</a></ng-template>
-
-
-
-

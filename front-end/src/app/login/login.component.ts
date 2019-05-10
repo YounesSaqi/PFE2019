@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
    this.userService.getUsers().forEach((item) => {
    if(item.some((obj) => obj.email == this.loginForm.controls.email.value && obj.password == this.loginForm.controls.password.value)){
     localStorage.setItem('isLoggedIn', "true");
-    this.router.navigate(['acceuill']);
+    this.router.navigate(['amplitude']);
     }else {
       this.invalidLogin = true;
       localStorage.setItem('isLoggedIn', "false");

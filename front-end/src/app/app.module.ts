@@ -20,6 +20,7 @@ import { SqlhostComponent } from './sqlhost/sqlhost.component';
 import { TnsnameOraComponent } from './tnsname-ora/tnsname-ora.component';
 import { GeneroComponent } from './genero/genero.component';
 import { ExportComponent } from './export/export.component';
+import { ImportBDComponent } from './import-bd/import-bd.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +34,9 @@ import { ExportComponent } from './export/export.component';
     ConnexionApplicatifComponent,
     SqlhostComponent,
     TnsnameOraComponent,
-    ExportComponent,
     GeneroComponent,
+    ExportComponent,
+    ImportBDComponent,
   ],
   imports: [
     BrowserModule,

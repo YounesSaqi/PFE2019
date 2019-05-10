@@ -16,7 +16,7 @@ export class ConnexionApplicatifComponent implements OnInit {
 
    base:string="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'echo $FGLDIR && echo $BANK && echo $DATABASE && echo $ORACLE_SID && echo $INFORMIXSERVER'";
    btl;
-   usrApp:string="ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1";
+   usrApp:string="echo `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1`";
    bd;gene;amp;sid;inst;passwrd;password;genero;geneo;
    splited;Type;Instance:any;   
    msg;amplitude;pswd;session;amplit
@@ -98,7 +98,7 @@ export class ConnexionApplicatifComponent implements OnInit {
      this.gene="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c  'sed -i -e s#"+this.geneo+"#"+ form.value['genero'] + "# $AMPLITUDE_PROFILE/my_env_amplitude $AMPLITUDE_PROFILE/env_amplitude ~/.bash_profile  '";
      this.amp="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c  'sed -i -e s#"+this.amplit+"#"+ form.value['amplitude'] + "# $AMPLITUDE_PROFILE/my_env_amplitude $AMPLITUDE_PROFILE/env_amplitude ~/.bash_profile  '";
      this.bd="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c  'sed -i -e s/"+this.database+"/"+ form.value['data'] + "/g ~/.bash_profile $FGLDIR/etc/fglprofile.bank '";
-     this.inst="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c  'sed -i -e s/"+this.Instance+"/"+ form.value['sid'] + "/g ~/.bash_profile  $AMPLITUDE_PROFILE/my_env_amplitude $AMPLITUDE_PROFILE/env_amplitude $FGLDIR/etc/fglprofile.bank '";
+     this.inst="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c  'sed -i -e s/"+"this.Instance"+"/"+ form.value['sid'] + "/g ~/.bash_profile  $AMPLITUDE_PROFILE/my_env_amplitude $AMPLITUDE_PROFILE/env_amplitude $FGLDIR/etc/fglprofile.bank '";
      this.passwrd="sudo su - `ls -l /work/install/profile|cut -d' ' -f3 | grep -v ' '|tail -1` -c 'sed -i 's/"+this.database+".password.*/"+form.value['data']+".password="+  form.value['password']  +"/g'  $FGLDIR/etc/fglprofile.bank '";
      console.log(this.passwrd);
      //this.userr= "sed -i 's/password.*/password="+this.audioUrl+"/g' cih.txt";

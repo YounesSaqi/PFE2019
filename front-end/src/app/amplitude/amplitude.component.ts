@@ -52,7 +52,7 @@ export class AmplitudeComponent implements OnInit {
                 });
                
                
-                this.router.navigate(['applicatif'])
+                this.router.navigate(['acceuill'])
                 .then(() => {
                   window.location.reload();
                 });
