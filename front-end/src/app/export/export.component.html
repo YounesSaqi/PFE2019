@@ -1,3 +1,4 @@
+
 <br>
 
 <div class="container" *ngIf="session=='true'; else other_content">
@@ -56,7 +57,7 @@
                <select [(ngModel)]="versBd" *ngIf="typBd != ''" name="versBd" (change)="selectVersBd()" class="form-control">
                    <option value='12'>Serveur MDV</option>
                    <option value='11'>Serveur 29</option>
-                   <option value='autre'>autres</option>
+                   <option value='autre'>TMA-IBFS(Ancien)</option>
                    
                  </select>
            </td>
@@ -94,7 +95,16 @@
                </td>
             </tr>
       </table>
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width.%':width}"  style="width:0%">
+          {{width}}
+        </div>
+      </div>
    </form>
-
+   <div class="bg-success text-white">{{msg}}</div>
 </div>
 <ng-template class=" offset-md-5" #other_content><a href="/login">You must login......</a></ng-template>
+
+
+
+

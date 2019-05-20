@@ -1,0 +1,109 @@
+
+<br>
+
+<div class="container" >
+
+    <h2>Importation des BD ORACLE  </h2><br>
+  <form  #myform="ngForm" #import="ngForm" (ngSubmit)="onSubmit(myform)">
+    <table class="table">
+        
+         
+          <tr>
+              <th>Utilisateur </th>
+            
+          <td><input type="text"  name="userApp"  class="form-control"  [(ngModel)]="userApp" required> </td>
+            </tr> 
+            <tr>
+              <th>Password </th>
+             
+          <td><input type="text"  name="passSys"  class="form-control"  [(ngModel)]="passSys" required> </td>
+            </tr>
+
+            <tr>
+              <th>Adresse de VM</th>
+             
+          <td><input type="text"  name="adrIp"  class="form-control"  [(ngModel)]="adrIp" placeholder="xxx.xxx.xxx.xxx" id="host" pattern="^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})$" required> </td>
+            </tr>
+            <tr>
+                <th> new Utilisateur BD</th>
+               
+            <td><input type="text"  name="userDB"  class="form-control"  [(ngModel)]="userDB" required> </td>
+              </tr>    
+              <tr>
+                  <th> newPassword BD</th>
+                  
+              <td><input type="text"  name="passDB"  class="form-control"  [(ngModel)]="passDB" required> </td>
+              </tr> 
+             <tr>
+              <th>Version d'oracle</th>
+              <td>
+                  <select [(ngModel)]="versBd" name="versBd" class="form-control">
+                      <option value='12'>Serveur MDV</option>
+                      <option value='11'>Serveur 29</option>
+                      <option value='autre'>TMA-IBFS(Ancien)</option>
+                      
+                    </select>
+              </td>
+            </tr> 
+              <tr>
+              <th>ORACLE SID</th>
+              <td><input type="text"  name="sid"  class="form-control"  [(ngModel)]="sid" required> </td>
+              </tr> 
+          
+          <tr>
+              <th>chemin dump</th>
+              <td>
+                  <select id="state" name="chemin" [(ngModel)]="chemin"  class="form-control">
+                      <option value='/mdvawb/awb_de/ora/AWBDE/export'>/mdvawb/awb_de/ora/AWBDE/export</option>
+                      <option value='/mdvawb/awb_it/ora/AWBIT/export'>/mdvawb/awb_it/ora/AWBIT/export</option>
+                      <option value='/mdvawb/awb_be/ora/AWBBE/export'>/mdvawb/awb_be/ora/AWBBE/export</option>
+                      <option value='/mdvawb/awb_es/ora/AWBES/export'>/mdvawb/awb_es/ora/AWBES/export</option>
+                      <option value='/tma_ibfs_sggh/export/test/SGGH4'>/tma_ibfs_sggh/export/test/SGGH4</option>
+                      <option value='/home/gap'>/home/gap</option>
+                    </select>
+                    
+              </td>
+             </tr>
+             <tr>
+                <th>Nom dump</th>
+                <td>
+                   <input type="text" name="dump" class="form-control" [(ngModel)]="dump" required>
+                      
+                </td>
+              </tr>
+           <tr>
+              <th>Schema Ancien</th>
+              <td>
+                  <select name="Schema_anc" [(ngModel)]="Schema_anc" class="form-control">
+                      <option value='PRODAWB_FR'>PRODAWB_FR</option>
+                      <option value='PRODAWBDE_DE'>PRODAWBDE_DE</option>
+                      <option value='sggh_light2'>sggh_light2</option>
+                    </select>
+              </td>
+             </tr>
+             <tr>
+                <th>Tablespace Ancien</th>
+                <td>
+                    <select  name="Tablespace" [(ngModel)]="Tablespace" class="form-control">
+                        <option value='DATABS'>DATABS</option>
+                        <option value='PROD_DE'>PROD_DE</option>
+                        
+                      </select>
+                </td>
+               </tr>
+            <tr>
+              <td> <button class="btn btn-danger" (click)="onDeconnect()" >Annuler</button></td>
+              <td>
+               <button class="btn btn-success offset-md-11 "  >Importer</button>
+              
+               </td>
+            </tr>
+      </table>
+   </form>
+ {{msg}}
+</div>
+<ng-template class=" offset-md-5" #other_content><a href="/login">You must login......</a></ng-template>
+
+
+
+

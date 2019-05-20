@@ -15,7 +15,7 @@ lic2="HD0I00MMKYL3";
 maint="GI19Z1SKFLBJ";
 to
   constructor(private formBuilder: FormBuilder,private router: Router, private hostService: HostService) { }
-  Form_licence;Form_genero;Form_fgldir: FormGroup;
+  Form_licence;Form_genero;cmdchmod;Form_fgldir: FormGroup;
   licence:string;
   from;fgldir;msg
   ngOnInit() {
@@ -34,7 +34,10 @@ to
 
   }
 //upload genero
-onUpload(){
+async onUpload(){
+  this.cmdchmod=this.formBuilder.group({
+    commande:["chmod 777 -R "+this.to,Validators.required]
+ });
   
  this.Form_genero=this.formBuilder.group({
   from:[this.from,Validators.required],
@@ -42,12 +45,14 @@ onUpload(){
   
 });
 console.log(this.Form_genero.value)
-this.hostService.Uploadservice(this.Form_genero.value)
- .subscribe(data=>{
- if(data==null)
-  this.msg="The file has been uploaded succesfully"
-  })
+let upload=  await this.hostService.Uploadservice(this.Form_genero.value)
 
+ console.log(upload)
+ if(upload==null)
+  this.msg="The file has been uploaded succesfully"
+  
+  let cmdCh= await this.hostService.ExcuteCommandeAsync(this.cmdchmod.value);
+  console.log(cmdCh)
 
 
 }

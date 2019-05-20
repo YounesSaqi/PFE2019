@@ -11,6 +11,7 @@ export class Export {
     cheminExport : String ;
    typeExport : String ;
     typeBd : String ;
+    versBd:String;
     
     
   }

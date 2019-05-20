@@ -20,6 +20,14 @@
       <input formControlName="password" placeholder="Password" name="password" class="form-control" id="password">
     </div>
 
+    <div>
+        <label for="lastName">Role:</label>
+        <select class="form-control">
+            <option value='DBA'>DBA</option>
+            <option value='user'>user</option>
+          </select>
+    </div>
+ <br>
     <button class="btn btn-success" [disabled]="!updateuser.valid">Update</button>
   </form>
 </div>

@@ -16,8 +16,9 @@ import { Genero } from '../model/genero.model';
 })
 
 export class ExportComponent implements OnInit {
-
   versBd=" ";
+  width
+//  var:string ="style=width:0%";
   userApp;passSys;adrIp;expForm;
   userDB;passDB;
   cheminDmp: String;
@@ -40,7 +41,7 @@ export class ExportComponent implements OnInit {
   chemin;
   cmdchmodDump;splited;
 
-   connForm;usrApp;cmdchmod;base;
+   connForm;usrApp;cmdchmod;base;ses;
    cmd;
   constructor(private formBuilder: FormBuilder,private hostService:HostService,private router: Router) { }
 
@@ -54,7 +55,7 @@ export class ExportComponent implements OnInit {
     ngOnInit() {
       this.session=localStorage.getItem('isLoggedIn');
   
-      
+      this.width =0
 
      
     }
@@ -62,6 +63,7 @@ export class ExportComponent implements OnInit {
   
   
    async onSubmit() {
+    this.width =10
     //   let delay =duration => new Promise((resolve,reject)=>{
     //    setTimeout(() =>{ resolve(); },duration
     //   )
@@ -125,15 +127,24 @@ export class ExportComponent implements OnInit {
           // chaine=chaine.replace("\\\r","");
           // console.log(chaine);
          
-            this.session = await this.hostService.connectHostAsync(this.connForm.value);
-            this.session=localStorage.getItem('isLoggedIn');
+            this.ses = await this.hostService.connectHostAsync(this.connForm.value);
+            //this.session=localStorage.getItem('isLoggedIn');
             
             console.log("session :: "+this.session);
             let upload= await this.hostService.UploadserviceAsync(this.transfertFile.value);
+            if(upload==null){
+              this.width=20
+            }
             console.log("upload file :: "+upload);
             let cmdCh= await this.hostService.ExcuteCommandeAsync(this.cmdchmod.value);
+            if(cmdCh==null){
+              this.width=30
+            }
             console.log("chmod 777 file  :: "+cmdCh);
             let exp= await  this.hostService.ExcuteExport(this.expForm.value);
+            if(exp==null){
+              this.width=50
+            }
             console.log("export   :: "+exp);
             let dernierFile = await this.hostService.ExcuteCommandeAsync(this.cmdDernierFile.value);
             this.splited=dernierFile.commande.split("\r\n");
@@ -149,6 +160,11 @@ export class ExportComponent implements OnInit {
            });
             let cmdChDump= await this.hostService.ExcuteCommandeAsync(this.cmdchmodDump.value);
             let download= await this.hostService.Downloadservice(dernierFile.commande);
+            if(download==null){
+              this.msg="you can take your dump";
+              this.width=100
+
+            }
             
         
 
@@ -294,3 +310,4 @@ export class ExportComponent implements OnInit {
     }
     
   }
+  
