@@ -160,13 +160,13 @@ public class SShController {
             }
             //   channel.disconnect();
             //    session.disconnect();
-           // System.out.println("hejhhj");
+            // System.out.println("hejhhj");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-    //    System.out.println(shost.getInstance());
+        //    System.out.println(shost.getInstance());
         return CommandOutput;
 
 
@@ -384,7 +384,47 @@ public class SShController {
 
     }
 
+    @RequestMapping(value = "/commande_import", method = RequestMethod.POST)
+    public  void  importDb(@RequestBody Import impt) {
+        String cmd="";
+        String CommandOutput = null;
+        try {
+            Channel channel = session.openChannel("exec");
+            ((ChannelExec) channel).setPty(true);
+            InputStream in = channel.getInputStream();
+            channel.setInputStream(null);
+            ((ChannelExec) channel).setErrStream(System.err);
+            cmd = "sh "  + impt.getCheminImport() + "/import_oracle.sh " + impt.getUserBd() + " " + impt.getPasswdBd() + " " + impt.getSid() + " " + impt.getShema_anc() + " " + impt.getTablespace()   + " " + impt.getCheminImport() +" "+ impt.getNomdump() +" "+impt.getVersBd();
+            System.out.println(cmd);
+            ((ChannelExec) channel).setCommand(cmd);
+            ((ChannelExec) channel).setErrStream(System.err);
 
+
+            channel.connect();
+            byte[] tmp = new byte[1024];
+            while (true) {
+                while (in.available() > 0) {
+                    int i = in.read(tmp, 0, 1024);
+
+                    if (i < 0)
+                        break;
+
+
+                    CommandOutput = new String(tmp, 0, i);
+                }
+
+                if (channel.isClosed()) {
+                     System.out.println(CommandOutput);
+                    break;
+                }
+
+                }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
 
 
 }

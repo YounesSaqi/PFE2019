@@ -36,7 +36,7 @@ public class Export {
     public Export(String user,String password, String sid,String typeBd,String nomDump) {
         this.userBd=user;
         this.passwdBd=password;
-this.typeBd=typeBd;
+        this.typeBd=typeBd;
         this.sid=sid;
         this.nomDump=nomDump;
     }

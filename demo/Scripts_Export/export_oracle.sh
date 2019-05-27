@@ -14,14 +14,14 @@ export EXP_TYPE=$5
 export TFILE=nohup.$DBUSERNAME.out
 export STARTTIME=`date`
 export DATEFORMAT=`date +%Y%m%d_%Hh%Mm%Ss`
-echo "version Bd :: "$VERS_BD > version.log
+
 case $VERS_BD in
    12)
       export ORACLE_HOME="/oracle/product/12.2.0.1"
       echo "ORACLE_HOME :: "$ORACLE_HOME > version12.log
       ;;
    11)
-      export ORACLE_HOME="/appli/oracle/product/11.2.0/dbhome_1"
+      export ORACLE_HOME="/oracle/product/11.2.0.4_std"
       echo "ORACLE_HOME :: "$ORACLE_HOME > version11.log
       ;;
    autre)
@@ -97,7 +97,7 @@ nohup expdp $DBUSERNAME/$DBPASSWORD@$ORACLE_SID DIRECTORY=exp_dir DUMPFILE=expdp
 
 if [ -f "${EXPDIR}/${DUMPFILE}" ]; then
 DUMPFILE=`basename $DUMPFILE .dmp`
-tar -cvf ${EXPDIR}/$DUMPFILE.tar ${EXPDIR}/$DUMPFILE.dmp ${EXPDIR}/$EXPLOG
-gzip ${EXPDIR}/$DUMPFILE.tar
+tar -czvf ${EXPDIR}/$DUMPFILE.tar.gz ${EXPDIR}/$DUMPFILE.dmp ${EXPDIR}/$EXPLOG
+#gzip ${EXPDIR}/$DUMPFILE.tar
 
 fi
